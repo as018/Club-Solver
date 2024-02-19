@@ -1,0 +1,60 @@
+# Recursive 
+# This function signature defines that it will take a string as input and return a list of strings.
+def letter_combinations_recursive(digits: str) -> List[str]:
+    # If the input string is empty, return an empty list since there are no combinations to form.
+    if not digits:
+        return []
+
+    # This dictionary maps each digit to the corresponding letters on a phone keypad.
+    phone_map = {
+        '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',
+        '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
+    }
+    
+    # This inner function is a helper that uses backtracking to form combinations.
+    def backtrack(combination, next_digits):
+        # If there are no more digits to check, the current combination is complete and added to the result list.
+        if len(next_digits) == 0:
+            combinations.append(combination)
+        else:
+            # Loop over the letters that the current digit maps to.
+            for letter in phone_map[next_digits[0]]:
+                # Call backtrack recursively with the current letter added to the combination and the remaining digits.
+                backtrack(combination + letter, next_digits[1:])
+    
+    # This list will hold all the possible combinations.
+    combinations = []
+    # Start the backtracking process with an empty combination and the input digits.
+    backtrack("", digits)
+    # Return the list of combinations.
+    return combinations
+
+
+
+
+
+# Itterative Process
+
+# This function signature also defines that it takes a string as input and returns a list of strings.
+def letter_combinations_iterative(digits: str) -> List[str]:
+    # If the input string is empty, return an empty list as above.
+    if not digits:
+        return []
+
+    # The same dictionary mapping digits to letters as in the recursive approach.
+    phone_map = {
+        '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',
+        '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
+    }
+    
+    # Initialize the queue with an empty string to build the combinations iteratively.
+    queue = ['']
+    # Iterate over each digit in the input string.
+    for digit in digits:
+        # Get the corresponding letters for the current digit.
+        letters = phone_map[digit]
+        # For each combination already in the queue, append each possible letter and add the new combinations back to the queue.
+        queue = [prefix + letter for prefix in queue for letter in letters]
+
+    # Return the fully formed combinations after processing all digits.
+    return queue
